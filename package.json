@@ -1,0 +1,20 @@
+{
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "compile": "npx tsc",
+    "start": "node ./dist/index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "morgan": "^1.10.0",
+    "web3": "^4.14.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/morgan": "^1.9.9",
+    "nodemon": "^3.1.7",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}
