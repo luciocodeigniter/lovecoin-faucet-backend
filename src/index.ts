@@ -7,6 +7,7 @@ import { mintAndTransfer } from './Web3Provider';
 // importamos o `express` e as tipagens
 import express, { Request, Response, NextFunction } from 'express';
 import morgan from 'morgan'; // faz o logging das requisições
+import cors from 'cors';
 
 const PORT: number = parseInt(`${process.env.PORT || 3001}`);
 
@@ -16,6 +17,11 @@ const app = express();
 // toda requisição que chegar para o backend 
 // é processada no morgan primeiramente
 app.use(morgan('tiny'));
+
+// permitimos com o CORS apenas o nosso frontend
+app.use(cors({
+    origin: process.env.CORS_ORIGIN
+}));
 
 app.post("/mint/:wallet", async (req: Request, res: Response, next: NextFunction) => {
     try {
