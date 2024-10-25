@@ -18,13 +18,16 @@ const app = express();
 app.use(morgan('tiny'));
 
 app.post("/mint/:wallet", async (req: Request, res: Response, next: NextFunction) => {
-
     try {
         const tx = await mintAndTransfer(req.params.wallet);
         res.json(tx);
-    } catch (error) {
-        res.status(500).json(error);
-    };
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            res.status(500).json(error.message);
+        }
+
+        res.status(500).json('An unknown error occurred');
+    }
 });
 
 app.listen(PORT, () => {
