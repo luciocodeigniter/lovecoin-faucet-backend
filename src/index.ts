@@ -9,8 +9,6 @@ import express, { Request, Response, NextFunction } from 'express';
 import morgan from 'morgan'; // faz o logging das requisições
 import cors from 'cors';
 
-const PORT: number = parseInt(`${process.env.PORT || 3001}`);
-
 const app = express();
 
 // `tiny` é o nível de logs
@@ -23,7 +21,15 @@ app.use(cors({
     origin: process.env.CORS_ORIGIN
 }));
 
+// armazenaremos carteira e a próxima data do mint
+const nextMint = new Map<string, number>();
+
 app.post("/mint/:wallet", async (req: Request, res: Response, next: NextFunction) => {
+
+    // controle de mint
+    nextMint.set(req.params.wallet, Date.now() + (1000 * 60 * 60 * 24 * 2));
+
+
     try {
         const tx = await mintAndTransfer(req.params.wallet);
         res.json(tx);
@@ -36,6 +42,8 @@ app.post("/mint/:wallet", async (req: Request, res: Response, next: NextFunction
     }
 });
 
+
+const PORT: number = parseInt(`${process.env.PORT || 3001}`);
 app.listen(PORT, () => {
     console.log(`Server is listening at ${PORT}`);
 });
